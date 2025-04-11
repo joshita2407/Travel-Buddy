@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Travel Buddy - Chat Box</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #16a085;
+      --primary-dark: #138d75;
+      --background: #f2f6f8;
+      --text-dark: #2c3e50;
+      --text-muted: #7f8c8d;
+      --card-bg: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--background);
+      margin: 0;
+      color: var(--text-dark);
+    }
+
+    .hero {
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+      height: 260px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0, 0, 0, 0.4); /* Dark overlay */
+        z-index: 0;
+        border-radius: 10px;
+    }
+
+    .hero * {
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 44px;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 18px;
+      margin-top: 8px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+      margin-bottom: 25px;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    .form, .search, .login-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    input, select, textarea {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: 0.3s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+    }
+
+    .thread h3 {
+      margin: 0 0 10px;
+    }
+
+    .meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .answers {
+      margin-top: 12px;
+      border-top: 1px solid #eee;
+      padding-top: 10px;
+    }
+
+    .answer {
+      padding-left: 10px;
+      margin-top: 8px;
+    }
+
+    .answer strong {
+      color: var(--text-dark);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #aaa;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 768px) {
+      .form, .search, .login-form {
+        flex-direction: column;
+      }
+
+      input, select, button, textarea {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <h1>🌍 Travel Buddy</h1>
+    <p>Ask Questions. Connect with Locals. Travel Smarter.</p>
+  </div>
+
+  <div class="container">
+    <!-- Login Section -->
+    <div id="loginSection" class="card">
+      <h2 style="margin-bottom: 20px;">Tell us who you are</h2>
+      <div class="login-form">
+        <input id="loginUser" placeholder="Your Name" />
+        <select id="loginType">
+          <option>Traveler</option>
+          <option>Local</option>
+        </select>
+        <button onclick="loginUser()">Enter Chat</button>
+      </div>
+    </div>
+
+    <!-- Chat Section -->
+    <div id="qaSection" class="hidden">
+      <div class="card form">
+        <input id="user" readonly />
+        <input id="type" readonly />
+        <input id="question" placeholder="Ask a travel-related question..." />
+        <button onclick="postQuestion()">Ask</button>
+      </div>
+
+      <div class="card search">
+        <input id="searchInput" placeholder="Search questions..." oninput="renderQuestions()" />
+      </div>
+
+      <div id="threads"></div>
+    </div>
+  </div>
+
+  <footer>
+    Made with ❤️ by Team Travel Buddy | © 2025
+  </footer>
+
+  <script>
+    let questions = [];
+    let currentUser = "";
+    let currentType = "";
+
+    function loginUser() {
+      const user = document.getElementById("loginUser").value.trim();
+      const type = document.getElementById("loginType").value;
+
+      if (!user) {
+        alert("Please enter your name");
+        return;
+      }
+
+      currentUser = user;
+      currentType = type;
+
+      document.getElementById("user").value = currentUser;
+      document.getElementById("type").value = currentType;
+
+      document.getElementById("loginSection").classList.add("hidden");
+      document.getElementById("qaSection").classList.remove("hidden");
+
+      fetchQuestions();
+    }
+
+    async function fetchQuestions() {
+      try {
+        const res = await fetch("http://localhost:5000/questions");
+        questions = await res.json();
+        renderQuestions();
+      } catch (e) {
+        console.error("Backend error or not running", e);
+      }
+    }
+
+    async function postQuestion() {
+      const question = document.getElementById("question").value.trim();
+      if (!question) {
+        alert("Please enter your question.");
+        return;
+      }
+
+      await fetch("http://localhost:5000/ask", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user: currentUser, type: currentType, question })
+      });
+
+      document.getElementById("question").value = "";
+      fetchQuestions();
+    }
+
+    async function postAnswer(qid) {
+      const answer = document.getElementById(`answer-${qid}`).value.trim();
+      if (!answer) {
+        alert("Please enter your answer.");
+        return;
+      }
+
+      await fetch(`http://localhost:5000/answer/${qid}`, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user: currentUser, type: currentType, answer })
+      });
+
+      document.getElementById(`answer-${qid}`).value = "";
+      fetchQuestions();
+    }
+
+    function renderQuestions() {
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const container = document.getElementById("threads");
+      container.innerHTML = "";
+
+      questions
+        .filter(q => q.question.toLowerCase().includes(search))
+        .forEach(q => {
+          const answers = q.answers.map(a => `
+            <div class="answer">
+              <div><strong>${a.user} (${a.type})</strong>: ${a.answer}</div>
+              <div class="meta">${a.time}</div>
+            </div>
+          `).join('');
+
+          container.innerHTML += `
+            <div class="card thread">
+              <h3>🧳 ${q.question}</h3>
+              <div class="meta">Asked by ${q.user} (${q.type}) at ${q.time}</div>
+              <div class="answers">${answers}</div>
+              <textarea id="answer-${q.id}" placeholder="Write your answer..." rows="2" style="margin-top: 10px;"></textarea>
+              <button style="margin-top: 10px;" onclick="postAnswer(${q.id})">Submit Answer</button>
+            </div>
+          `;
+        });
+    }
+  </script>
+
+</body>
+</html>
