@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Journal</title>
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+    background-size: cover;
+    padding: 20px;
+  }
+  nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1e293b;
+  padding: 0 20px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  padding: 15px 0;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.nav-links a {
+  color: white;
+  padding: 15px 15px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.nav-links a:hover {
+  background-color: #334155;
+}
+  h1 {
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+  }
+  
+  .journal-form {
+    max-width: 600px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .journal-form input,
+  .journal-form textarea,
+  .journal-form button {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  .entries {
+    max-width: 800px;
+    margin: 30px auto;
+  }
+  
+  .entry {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  
+  .entry img {
+    max-width: 100%;
+    margin-top: 10px;
+    border-radius: 8px;
+  }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/addEvent">Organize Event</a>
+      <a href="/upcoming">Upcoming Events</a>
+      <a href="/calendar">Calendar</a>
+      <a href="/itinerary">Itinerary</a>
+      <a href="/chat">Chatbot</a>
+      <a href="/journal">Journal</a>
+      <a href="/localStay">Local Stay</a>
+      <a href="/contact">Contact</a>
+      
+    </div>
+  </nav>
+  <h1> Travel Journal</h1>
+
+  <div class="journal-form">
+    <input type="text" id="title" placeholder="Title">
+    <textarea id="note" rows="5" placeholder="Write about your journey..."></textarea>
+    <input type="file" id="imageInput" accept="image/*">
+    <button onclick="addEntry()">Add Entry</button>
+  </div>
+
+  <div class="entries" id="entries"></div>
+
+  <script>
+    function addEntry() {
+      const title = document.getElementById('title').value;
+      const note = document.getElementById('note').value;
+      const imageInput = document.getElementById('imageInput');
+  
+      if (!title || !note) {
+        alert('Please fill in both title and note.');
+        return;
+      }
+  
+      const entry = document.createElement('div');
+      entry.className = 'entry';
+  
+      // Corrected line
+      entry.innerHTML = `<h3>${title}</h3><p>${note}</p>`;
+  
+      if (imageInput.files.length > 0) {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(imageInput.files[0]);
+        entry.appendChild(img);
+      }
+  
+      document.getElementById('entries').prepend(entry);
+  
+      // Clear inputs
+      document.getElementById('title').value = '';
+      document.getElementById('note').value = '';
+      document.getElementById('imageInput').value = '';
+    }
+  </script>
+  
+      
+</body>
+</html>
