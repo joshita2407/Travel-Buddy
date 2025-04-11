@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Travel Itinerary Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 60px auto;
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      padding: 12px 14px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    input[type="range"] {
+      width: 100%;
+    }
+
+    .slider-value {
+      text-align: right;
+      font-weight: bold;
+      color: #007BFF;
+    }
+
+    button {
+      background-color: #007BFF;
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #output {
+      margin-top: 30px;
+      padding: 20px;
+      background: #fefefe;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .loading {
+      color: #007BFF;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌍 Travel Itinerary Generator</h1>
+    <form id="itineraryForm">
+      <label for="destination">Destination:</label>
+      <input type="text" id="destination" name="destination" placeholder="Enter destination" required>
+
+      <label for="people">Number of People:</label>
+      <input type="number" id="people" name="people" min="1" required>
+
+      <label for="kids">Are Kids Traveling?</label>
+      <select id="kids" name="kids" required onchange="toggleKidInput()">
+        <option value="">Select</option>
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+      </select>
+
+      <div id="kidCountWrapper" class="hidden">
+        <label for="kidCount">Number of Kids:</label>
+        <input type="number" id="kidCount" name="kidCount" min="1">
+      </div>
+
+      <label for="duration">Duration (in days):</label>
+      <input type="number" id="duration" name="duration" min="1" required>
+
+      <label for="budget">Budget (₹): <span class="slider-value" id="budgetValue">₹50000</span></label>
+      <input type="range" id="budget" name="budget" min="5000" max="500000" step="1000" value="50000" oninput="updateBudgetDisplay()">
+
+      <label for="interests">Interests:</label>
+      <input type="text" id="interests" name="interests" placeholder="e.g. culture, nature, food" required>
+
+      <button type="submit">Generate Itinerary</button>
+    </form>
+
+    <div class="loading" id="loading" style="display: none;">✈️ Generating itinerary, please wait...</div>
+    <div id="output"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('itineraryForm');
+    const output = document.getElementById('output');
+    const loading = document.getElementById('loading');
+    const budgetSlider = document.getElementById('budget');
+    const budgetValue = document.getElementById('budgetValue');
+
+    function updateBudgetDisplay() {
+      budgetValue.textContent = `₹${parseInt(budgetSlider.value).toLocaleString()}`;
+    }
+
+    function toggleKidInput() {
+      const kidSelect = document.getElementById("kids");
+      const kidCountWrapper = document.getElementById("kidCountWrapper");
+      if (kidSelect.value === "Yes") {
+        kidCountWrapper.classList.remove("hidden");
+        document.getElementById("kidCount").setAttribute("required", true);
+      } else {
+        kidCountWrapper.classList.add("hidden");
+        document.getElementById("kidCount").removeAttribute("required");
+      }
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      output.innerHTML = '';
+      loading.style.display = 'block';
+
+      const formData = {
+        destination: form.destination.value,
+        people: form.people.value,
+        kids: form.kids.value,
+        kidCount: form.kidCount ? form.kidCount.value : '0',
+        duration: form.duration.value,
+        budget: form.budget.value,
+        interests: form.interests.value,
+      };
+
+      try {
+        const response = await fetch('/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+        loading.style.display = 'none';
+
+        if (result.itinerary) {
+          output.innerHTML = formatItinerary(result.itinerary);
+        } else {
+          output.innerHTML = `<span style="color:red;">Error: ${result.error}</span>`;
+        }
+      } catch (error) {
+        loading.style.display = 'none';
+        output.innerHTML = `<span style="color:red;">Error: ${error.message}</span>`;
+      }
+    });
+
+    function formatItinerary(raw) {
+      const lines = raw.split(/(Day \d+:)/g).filter(Boolean);
+      let formatted = '';
+      for (let i = 0; i < lines.length; i++) {
+        if (lines[i].startsWith("Day")) {
+          formatted += `<h2>${lines[i]}</h2>`;
+        } else {
+          formatted += `<p>${lines[i].replace(/\n/g, '<br>')}</p>`;
+        }
+      }
+      return formatted;
+    }
+
+    updateBudgetDisplay(); // Set initial value
+  </script>
+</body>
+</html>
