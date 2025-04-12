@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upcoming Events</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-attachment: fixed;
+      min-height: 100vh;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #1e293b;
+      padding: 0 20px;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+      color: #ffffff;
+      padding: 15px 0;
+    }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .nav-links a {
+      color: white;
+      padding: 15px 15px;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .nav-links a:hover {
+      background-color: #334155;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin: 20px 0;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .event-card {
+      position: relative;
+      width: 300px;
+      background: white;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: all 0.4s ease;
+    }
+
+    .event-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .event-content {
+      padding: 15px;
+    }
+
+    .event-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #111827;
+    }
+
+    .event-location {
+      color: #6b7280;
+      margin: 5px 0;
+    }
+
+    .event-details {
+      margin-top: 10px;
+      background: #f9f9f9;
+      padding: 10px;
+      border-radius: 8px;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .event-card.expanded .event-details {
+      opacity: 1;
+      max-height: 400px;
+    }
+
+    .book-btn {
+      margin-top: 10px;
+      background-color: #10b981;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .book-btn:hover {
+      background-color: #059669;
+    }
+
+    .speak-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #0a0f19;
+      border: none;
+      padding: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .speak-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+    }
+
+    .speak-btn:hover {
+      background-color: #4f46e5;
+    }
+
+    .stop-btn {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  background-color: #ef4444;
+  border: none;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+  font-size: 12px;
+  color: white;
+}
+
+.stop-btn:hover {
+  background-color: #dc2626;
+}
+
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/addEvent">Organize Event</a>
+      <a href="/upcoming">Upcoming Events</a>
+      <a href="/calendar">Calendar</a>
+      <a href="/itinerary">Itinerary</a>
+      <a href="/chat">Chatbot</a>
+      <a href="/journal">Journal</a>
+      <a href="/localStay">Local Stay</a>
+      <a href="/contact">Contact</a>
+      
+    </div>
+  </nav>
+  <h1>Upcoming Events</h1>
+  <div class="container" id="event-container"></div>
+
+  <script>
+    const hardcodedEvents = [
+      {
+        image: "https://aanganresortmandawa.com/wp-content/uploads/2021/09/Famous-Sunset-and-Sunrise-Spots-in-Rajasthan.jpg",
+        title: "Summer Fest",
+        location: "Jaipur",
+        date: "2025-05-22",
+        description: "A colorful cultural celebration with food, music and dance.",
+        days: [
+          { name: "May 22 - Folk Dance Show", cost: 500 },
+          { name: "May 23 - Rajasthani Cuisine", cost: 700 },
+          { name: "May 24 - Puppet Theatre", cost: 300 }
+        ],
+        contact: "+91 9876543210"
+      },
+      {
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuEv9fKeIqwR9CydwQDRXeJqACxhQtfD5oYA&s",
+        title: "Beachside Beats",
+        location: "Goa",
+        date: "2025-06-05",
+        description: "Live music and water sports to chill your summer vibes.",
+        days: [
+          { name: "June 5 - Rock Concert", cost: 1200 },
+          { name: "June 6 - EDM Night", cost: 1500 }
+        ],
+        contact: "+91 9988776655"
+      },
+      {
+        image: "https://i0.wp.com/travelshoebum.com/wp-content/uploads/2017/12/dsc_8144.jpg?resize=1200%2C795&ssl=1",
+        title: "Art & Heritage Walk",
+        location: "Udaipur",
+        date: "2025-07-10",
+        description: "Explore the heritage sites with artists & storytellers.",
+        days: [
+          { name: "July 10 - Old City Tour", cost: 400 },
+          { name: "July 11 - Sketching Workshop", cost: 600 }
+        ],
+        contact: "+91 9123456789"
+      }
+    ];
+
+    let userEvents = JSON.parse(localStorage.getItem("upcomingEvents")) || [];
+
+    function isFutureEvent(dateStr) {
+      const today = new Date();
+      const eventDate = new Date(dateStr);
+      today.setHours(0, 0, 0, 0);
+      eventDate.setHours(0, 0, 0, 0);
+      return eventDate >= today;
+    }
+
+    const allEvents = [...hardcodedEvents, ...userEvents].filter(event => isFutureEvent(event.date));
+    const container = document.getElementById('event-container');
+
+    allEvents.forEach((event, index) => {
+      const card = document.createElement('div');
+      card.className = 'event-card';
+
+      const encodedDays = encodeURIComponent(JSON.stringify(event.days.map(day => ({
+        name: day.name,
+        cost: day.cost
+      }))));
+      const encodedTitle = encodeURIComponent(event.title);
+
+      card.innerHTML = `
+        <img src="${event.image}" alt="${event.title}" class="event-img" />
+        <div class="event-content">
+           <button class="speak-btn">🔊</button>
+           <button class="stop-btn" title="Stop Speaking">🛑</button>
+          <div class="event-title">${event.title}</div>
+          <div class="event-location"><strong>Location:</strong> ${event.location}</div>
+          <div><strong>Date:</strong> ${event.date}</div>
+          <div class="event-details">
+            <p><strong>Description:</strong> ${event.description}</p>
+            <p><strong>Schedule:</strong></p>
+            <ul>
+              ${event.days.map(day => `<li>${day.name} - ₹${day.cost}</li>`).join('')}
+            </ul>
+            <p><strong>Contact:</strong> ${event.contact}</p>
+            <a href="bookTickets.html?event=${encodedTitle}&days=${encodedDays}">
+        <button class="book-btn">Book Tickets</button>
+      </a>
+          </div>
+        </div>
+      `;
+
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.speak-btn') || e.target.classList.contains('book-btn')) return;
+        document.querySelectorAll('.event-card').forEach(c => {
+          if (c !== card) c.classList.remove('expanded');
+        });
+        card.classList.toggle('expanded');
+      });
+
+      card.querySelector('.speak-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.speechSynthesis.cancel();
+        const text = `
+          ${event.title}.
+          Location: ${event.location}.
+          Date: ${event.date}.
+          Description: ${event.description}.
+          Schedule: ${event.days.map(d => `${d.name}, Rupees ${d.cost}`).join('. ')}.
+          Contact: ${event.contact}.
+        `;
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'en-IN';
+        window.speechSynthesis.speak(utter);
+      });
+
+      card.querySelector('.book-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        alert(`Booking for ${event.title} initiated!`);
+      });
+      card.querySelector('.stop-btn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  window.speechSynthesis.cancel();
+});
+
+
+      container.appendChild(card);
+    });
+  </script>
+</body>
+</html>
