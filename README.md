@@ -5,19 +5,28 @@
 ## 🚀 Features
  
 🔹 **Annual Cultural Calendar** – Explore culturally rich events scheduled across various locations.
+
 🔹 **Organize & Reflect Events** – Users can add, manage, and view events directly in the calendar.
+
 🔹 **Book Event Tickets** – Seamless event booking with **printable receipts** for confirmation.
+
 🔹 **AI-powered Itinerary Generator** – Personalized travel plans generated using Hugging Face models.
+
 🔹 **Community Chatbox** – Interact with locals for suggestions and Q&A.
+
 🔹 **Travel Journal** – Capture and revisit your travel memories with ease.
+
 🔹 **Explore Local Stays** – Find homestay options with an **interactive map** interface.
+
 🔹 **Text-to-Speech (TTS) Support** – Ensures accessibility for **visually impaired users** ♿.
 
 
 ## 🧩 Challenges Faced
 
 🔄 Syncing user events with calendar using Local Storage across sessions.
+
 🧠 Managing Hugging Face model responses within Flask for itinerary generation.
+
 🗣️ Implementing  TTS (text-to-speech) support.
 
 
