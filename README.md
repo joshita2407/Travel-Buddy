@@ -95,11 +95,11 @@ Contributions are welcome! Please follow these steps:
 
 ## 🙌 Acknowledgements
 
-- Hugging Face 🤗 for ML model APIs
+- Hugging Face for ML model APIs
 
-- Google Maps / Leaflet.js for map integration
+- Google Maps Embed API for map integration
 
-- VoiceRSS or other APIs for TTS support
+- APIs for TTS support
 
 - Inspiration: Making travel smarter, inclusive, and connected!
 
