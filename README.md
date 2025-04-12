@@ -57,11 +57,11 @@
 
 4. Open a terminal (or Command Prompt) and run:
 
-python app.py
+   python app.py
 
-Your site will run locally at:
+5. Your site will run locally at:
 
-http://127.0.0.1:5000/
+   http://127.0.0.1:5000/
 
 ✅ You're all set! Enjoy exploring Travel Buddy ✈️
 
