@@ -54,14 +54,23 @@
 2. Open the folder in VS Code.
    
    cd travel-buddy
-   
-4. Locate the file named app.py.
 
-5. Open a terminal (or Command Prompt) and run:
+3. Set up the virtual environment:
+
+   python -m venv venv
+   source venv/bin/activate  # or venv\Scripts\activate on Windows
+
+4. Install dependencies:
+
+   pip install -r requirements.txt
+
+5. Locate the file named app.py.
+
+6. Open a terminal (or Command Prompt) and run:
 
    python app.py
 
-6. Your site will run locally at:
+7. Your site will run locally at:
 
    http://127.0.0.1:5000/
 
