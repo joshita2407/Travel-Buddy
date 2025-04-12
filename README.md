@@ -49,7 +49,7 @@
 
 ## 🔧 Project Setup & Usage
 1. Clone the repository using:
- git clone https://github.com/your-username/travel-buddy.git
+ git clone https://github.com/joshita2407/Travel-Buddy.git
 
 2. Open the folder in VS Code.
  cd travel-buddy
