@@ -4,21 +4,21 @@
 
 ## 🚀 Features
  
-- 🔹 **Annual Cultural Calendar** – Explore culturally rich events scheduled across various locations.
-- 🔹 **Organize & Reflect Events** – Users can add, manage, and view events directly in the calendar.
-- 🔹 **Book Event Tickets** – Seamless event booking with **printable receipts** for confirmation.
-- 🔹 **AI-powered Itinerary Generator** – Personalized travel plans generated using Hugging Face models.
-- 🔹 **Community Chatbox** – Interact with locals for suggestions and Q&A.
-- 🔹 **Travel Journal** – Capture and revisit your travel memories with ease.
-- 🔹 **Explore Local Stays** – Find homestay options with an **interactive map** interface.
-- 🔹 **Text-to-Speech (TTS) Support** – Ensures accessibility for **visually impaired users** ♿.
+🔹 **Annual Cultural Calendar** – Explore culturally rich events scheduled across various locations.
+🔹 **Organize & Reflect Events** – Users can add, manage, and view events directly in the calendar.
+🔹 **Book Event Tickets** – Seamless event booking with **printable receipts** for confirmation.
+🔹 **AI-powered Itinerary Generator** – Personalized travel plans generated using Hugging Face models.
+🔹 **Community Chatbox** – Interact with locals for suggestions and Q&A.
+🔹 **Travel Journal** – Capture and revisit your travel memories with ease.
+🔹 **Explore Local Stays** – Find homestay options with an **interactive map** interface.
+🔹 **Text-to-Speech (TTS) Support** – Ensures accessibility for **visually impaired users** ♿.
 
 
 ## 🧩 Challenges Faced
 
-- 🔄 Syncing user events with calendar using Local Storage across sessions.
-- 🧠 Managing Hugging Face model responses within Flask for itinerary generation.
-- 🗣️ Implementing  TTS (text-to-speech) support.
+🔄 Syncing user events with calendar using Local Storage across sessions.
+🧠 Managing Hugging Face model responses within Flask for itinerary generation.
+🗣️ Implementing  TTS (text-to-speech) support.
 
 
 ## 🌱 Future Scope
@@ -49,9 +49,11 @@
 4. Open a terminal (or Command Prompt) and run:
 
 python app.py
+
 Your site will run locally at:
 
 http://127.0.0.1:5000/
+
 ✅ You're all set! Enjoy exploring Travel Buddy ✈️
 
 - ## Contributing 🤝
@@ -73,11 +75,11 @@ Contributions are welcome! Please follow these steps:
 
 ## 🙌 Acknowledgements
 
-Hugging Face 🤗 for ML model APIs
+- Hugging Face 🤗 for ML model APIs
 
-Google Maps / Leaflet.js for map integration
+- Google Maps / Leaflet.js for map integration
 
-VoiceRSS or other APIs for TTS support
+- VoiceRSS or other APIs for TTS support
 
-Inspiration: Making travel smarter, inclusive, and connected!
+- Inspiration: Making travel smarter, inclusive, and connected!
 
