@@ -49,17 +49,19 @@
 
 ## 🔧 Project Setup & Usage
 1. Clone the repository using:
- git clone https://github.com/joshita2407/Travel-Buddy.git
+   git clone https://github.com/joshita2407/Travel-Buddy.git
 
 2. Open the folder in VS Code.
- cd travel-buddy
-3. Locate the file named app.py.
+   
+   cd travel-buddy
+   
+4. Locate the file named app.py.
 
-4. Open a terminal (or Command Prompt) and run:
+5. Open a terminal (or Command Prompt) and run:
 
    python app.py
 
-5. Your site will run locally at:
+6. Your site will run locally at:
 
    http://127.0.0.1:5000/
 
